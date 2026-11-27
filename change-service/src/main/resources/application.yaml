@@ -1,0 +1,20 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: change-service
+  profiles:
+    default: local,mock
+  datasource:
+    url: jdbc:postgresql://${CHANGE_DB_HOST:localhost}:5432/${CHANGE_DB_NAME:change_db}
+    username: ${CHANGE_DB_USER}
+    password: ${CHANGE_DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+
+changeguard:
+  wave-observation-seconds: ${WAVE_OBSERVATION_SECONDS:5}
+
