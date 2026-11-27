@@ -24,6 +24,18 @@
       <artifactId>spring-boot-starter-web-services</artifactId>
     </dependency>
     <dependency>
+      <groupId>wsdl4j</groupId>
+      <artifactId>wsdl4j</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>jakarta.xml.bind</groupId>
+      <artifactId>jakarta.xml.bind-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jaxb</groupId>
+      <artifactId>jaxb-runtime</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-actuator</artifactId>
     </dependency>
@@ -35,10 +47,41 @@
   </dependencies>
 
   <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+      </resource>
+      <!-- l'XSD reste dans contracts/ (une seule source de vérité), copié dans le jar -->
+      <resource>
+        <directory>${project.basedir}/../contracts</directory>
+        <includes>
+          <include>approval.xsd</include>
+        </includes>
+      </resource>
+    </resources>
     <plugins>
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.jvnet.jaxb</groupId>
+        <artifactId>jaxb-maven-plugin</artifactId>
+        <version>4.0.8</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <schemaDirectory>${project.basedir}/../contracts</schemaDirectory>
+          <schemaIncludes>
+            <include>approval.xsd</include>
+          </schemaIncludes>
+          <generatePackage>com.changeguard.approval.ws</generatePackage>
+        </configuration>
       </plugin>
     </plugins>
   </build>
