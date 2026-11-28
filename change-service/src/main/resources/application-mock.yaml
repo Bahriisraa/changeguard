@@ -1,0 +1,5 @@
+mock:
+  approval:
+    mode: APPROVED   # APPROVED, REJECTED, FREEZE ou DOWN
+  health:
+    mode: SAIN       # SAIN, DEGRADE, EN_PANNE ou DOWN
