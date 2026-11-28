@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:tns="http://changeguard.example.com/approval/v1"
+           targetNamespace="http://changeguard.example.com/approval/v1"
+           elementFormDefault="qualified">
+
+  <xs:simpleType name="NonEmptyString">
+    <xs:restriction base="xs:string"><xs:minLength value="1"/></xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="ApprovalDecision">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="APPROVED"/>
+      <xs:enumeration value="REJECTED"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="ApprovalStatus">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="APPROVED"/>
+      <xs:enumeration value="REJECTED"/>
+      <xs:enumeration value="NOT_REQUESTED"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:element name="RequestApprovalRequest">
+    <xs:complexType><xs:sequence>
+      <xs:element name="changeId" type="tns:NonEmptyString"/>
+      <xs:element name="targetService" type="tns:NonEmptyString"/>
+      <xs:element name="requestedBy" type="tns:NonEmptyString"/>
+    </xs:sequence></xs:complexType>
+  </xs:element>
+
+  <xs:element name="RequestApprovalResponse">
+    <xs:complexType><xs:sequence>
+      <xs:element name="decision" type="tns:ApprovalDecision"/>
+      <xs:element name="reason" type="xs:string"/>
+    </xs:sequence></xs:complexType>
+  </xs:element>
+
+  <xs:element name="GetChangeStatusRequest">
+    <xs:complexType><xs:sequence>
+      <xs:element name="changeId" type="tns:NonEmptyString"/>
+    </xs:sequence></xs:complexType>
+  </xs:element>
+
+  <xs:element name="GetChangeStatusResponse">
+    <xs:complexType><xs:sequence>
+      <xs:element name="status" type="tns:ApprovalStatus"/>
+    </xs:sequence></xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://changeguard.example.com/approval/v1" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://changeguard.example.com/approval/v1" targetNamespace="http://changeguard.example.com/approval/v1">
+  <wsdl:types>
+    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://changeguard.example.com/approval/v1">
+
+  <xs:simpleType name="NonEmptyString">
+    <xs:restriction base="xs:string"><xs:minLength value="1"/></xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="ApprovalDecision">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="APPROVED"/>
+      <xs:enumeration value="REJECTED"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="ApprovalStatus">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="APPROVED"/>
+      <xs:enumeration value="REJECTED"/>
+      <xs:enumeration value="NOT_REQUESTED"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:element name="RequestApprovalRequest">
+    <xs:complexType><xs:sequence>
+      <xs:element name="changeId" type="tns:NonEmptyString"/>
+      <xs:element name="targetService" type="tns:NonEmptyString"/>
+      <xs:element name="requestedBy" type="tns:NonEmptyString"/>
+    </xs:sequence></xs:complexType>
+  </xs:element>
+
+  <xs:element name="RequestApprovalResponse">
+    <xs:complexType><xs:sequence>
+      <xs:element name="decision" type="tns:ApprovalDecision"/>
+      <xs:element name="reason" type="xs:string"/>
+    </xs:sequence></xs:complexType>
+  </xs:element>
+
+  <xs:element name="GetChangeStatusRequest">
+    <xs:complexType><xs:sequence>
+      <xs:element name="changeId" type="tns:NonEmptyString"/>
+    </xs:sequence></xs:complexType>
+  </xs:element>
+
+  <xs:element name="GetChangeStatusResponse">
+    <xs:complexType><xs:sequence>
+      <xs:element name="status" type="tns:ApprovalStatus"/>
+    </xs:sequence></xs:complexType>
+  </xs:element>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="RequestApprovalRequest">
+    <wsdl:part element="tns:RequestApprovalRequest" name="RequestApprovalRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetChangeStatusResponse">
+    <wsdl:part element="tns:GetChangeStatusResponse" name="GetChangeStatusResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="RequestApprovalResponse">
+    <wsdl:part element="tns:RequestApprovalResponse" name="RequestApprovalResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetChangeStatusRequest">
+    <wsdl:part element="tns:GetChangeStatusRequest" name="GetChangeStatusRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ApprovalPort">
+    <wsdl:operation name="RequestApproval">
+      <wsdl:input message="tns:RequestApprovalRequest" name="RequestApprovalRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:RequestApprovalResponse" name="RequestApprovalResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetChangeStatus">
+      <wsdl:input message="tns:GetChangeStatusRequest" name="GetChangeStatusRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:GetChangeStatusResponse" name="GetChangeStatusResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ApprovalPortSoap11" type="tns:ApprovalPort">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="RequestApproval">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="RequestApprovalRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="RequestApprovalResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetChangeStatus">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="GetChangeStatusRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="GetChangeStatusResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ApprovalPortService">
+    <wsdl:port binding="tns:ApprovalPortSoap11" name="ApprovalPortSoap11">
+      <soap:address location="http://localhost:8083/ws"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,11 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:ap="http://changeguard.example.com/approval/v1">
+  <soapenv:Header/>
+  <soapenv:Body>
+    <ap:RequestApprovalRequest>
+      <ap:changeId>42</ap:changeId>
+      <ap:targetService>target-app</ap:targetService>
+      <ap:requestedBy>alice</ap:requestedBy>
+    </ap:RequestApprovalRequest>
+  </soapenv:Body>
+</soapenv:Envelope>
