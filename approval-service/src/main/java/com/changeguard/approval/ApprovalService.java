@@ -1,6 +1,7 @@
 package com.changeguard.approval;
 
 import com.changeguard.approval.ws.ApprovalDecision;
+import com.changeguard.approval.ws.ApprovalStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +38,18 @@ public class ApprovalService {
 
         save(changeId, targetService, requestedBy, ApprovalDecision.APPROVED, "Approuve", now);
         return new ApprovalResult(ApprovalDecision.APPROVED, "Approuve");
+    }
+
+    // APPROVED l'emporte : un refus "deja approuve" ne doit pas masquer l'approbation d'origine
+    @Transactional(readOnly = true)
+    public ApprovalStatus getChangeStatus(String changeId) {
+        if (repository.existsByChangeIdAndDecision(changeId, ApprovalDecision.APPROVED)) {
+            return ApprovalStatus.APPROVED;
+        }
+        if (repository.existsByChangeIdAndDecision(changeId, ApprovalDecision.REJECTED)) {
+            return ApprovalStatus.REJECTED;
+        }
+        return ApprovalStatus.NOT_REQUESTED;
     }
 
     private void save(String changeId, String targetService, String requestedBy,

@@ -1,5 +1,7 @@
 package com.changeguard.approval;
 
+import com.changeguard.approval.ws.GetChangeStatusRequest;
+import com.changeguard.approval.ws.GetChangeStatusResponse;
 import com.changeguard.approval.ws.RequestApprovalRequest;
 import com.changeguard.approval.ws.RequestApprovalResponse;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
@@ -24,6 +26,14 @@ public class ApprovalEndpoint {
         RequestApprovalResponse response = new RequestApprovalResponse();
         response.setDecision(result.decision());
         response.setReason(result.reason());
+        return response;
+    }
+
+    @PayloadRoot(namespace = WebServiceConfig.NAMESPACE, localPart = "GetChangeStatusRequest")
+    @ResponsePayload
+    public GetChangeStatusResponse getChangeStatus(@RequestPayload GetChangeStatusRequest request) {
+        GetChangeStatusResponse response = new GetChangeStatusResponse();
+        response.setStatus(service.getChangeStatus(request.getChangeId()));
         return response;
     }
 }

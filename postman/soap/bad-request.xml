@@ -1,0 +1,8 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:ap="http://changeguard.example.com/approval/v1">
+  <soapenv:Header/>
+  <soapenv:Body>
+    <ap:GetChangeStatusRequest>
+    </ap:GetChangeStatusRequest>
+  </soapenv:Body>
+</soapenv:Envelope>
