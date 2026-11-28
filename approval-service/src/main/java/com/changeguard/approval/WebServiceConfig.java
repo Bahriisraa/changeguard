@@ -1,5 +1,7 @@
 package com.changeguard.approval;
 
+import java.time.Clock;
+
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -40,5 +42,9 @@ public class WebServiceConfig extends WsConfigurerAdapter {
         wsdl.setTargetNamespace(NAMESPACE);
         wsdl.setSchema(approvalSchema);
         return wsdl;
+    }
+    @Bean
+    public Clock clock() {
+        return Clock.systemUTC();
     }
 }
